@@ -4,28 +4,188 @@
     <meta charset="UTF-8">
     <title>demo 测试</title>
     <script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+    <script src="js/ndgmr.Collision.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="http://cdn.bootcss.com/zepto/1.2.0/zepto.js"></script>
     <script>
-        function init() {
-            var stage = new createjs.Stage('demoCanvas');
-            var circle = new createjs.Shape();
-            circle.graphics.beginStroke('red').drawCircle(0, 0, 50);
-            circle.x = 100;
-            circle.y = 100;
-            createjs.Ticker.addEventListener('tick', handleTick);
-            function handleTick() {
-                circle.x += 10;
-                 if (circle.x > stage.canvas.width) {
-                     circle.x = 0;
-                 }
-                stage.update();
+        var manifest = [
+            {
+                src: 'plane.png',
+                id: 'plane'
+            },
+            {
+                src: 'plane_weak.png',
+                id: 'plane_weak'
+            },
+            {
+                src: 'enemy.png',
+                id: 'enemy'
+            },
+            {
+                src: 'enemy2.png',
+                id: 'enemy2'
+            },
+            {
+                src: 'bullet.png',
+                id: 'bullet'
+            },
+            {
+                src: 'bg_move.png',
+                id: 'bg_move'
+            },
+            {
+                src: 'bg1.png',
+                id: 'bg1'
+            },
+            {
+                src: 'bg2.png',
+                id: 'bg2'
+            },
+            {
+                src: 'bg3.png',
+                id: 'bg3'
+            },
+            {
+                src: 'hp.png',
+                id: 'hp'
+            },
+            {
+                src: 'enemy_bullet.png',
+                id: 'enemy_bullet'
+            },
+            {
+                src: 'boss_bullet_left.png',
+                id: 'boss_bullet_left'
+            },
+            {
+                src: 'boss_bullet_right.png',
+                id: 'boss_bullet_right'
+            },
+            {
+                src: 'boss_bullet_mid.png',
+                id: 'boss_bullet_mid'
+            }, {
+                src: 'cheese.png',
+                id: 'cheese'
+            }, {
+                src: 'chicken.png',
+                id: 'chicken'
+            }, {
+                src: 'mushroom.png',
+                id: 'mushroom'
+            }, {
+                src: 'bacon.png',
+                id: 'bacon'
+            }, {
+                src: 'score.png',
+                id: 'score'
+            }, {
+                src: 'bg_music.mp3',
+                id: 'bg_music'
+            },{
+                src: 'enemy_boom.mp3',
+                id: 'enemy_boom'
+            },{
+                src: 'plane_bullet.mp3',
+                id: 'plane_bullet'
+            },{
+                src: 'win_bg.png',
+                id: 'win_bg'
             }
+        ];
 
-            stage.addChild(circle);
-            stage.update();
+        var gameManager = {
+            config: {
+                foods: [],
+                manifest: manifest,
+                plane: {
+                    hp: 5,
+                    attack: 2,
+                    width: 80,
+                    height: 80
+                },
+                enemyBullet: {
+
+                },
+                food: {
+
+                },
+                boss: {
+
+                },
+                enmey: {
+
+                }
+            }
+        };
+
+        // 最初绑定事件
+        function bindEvents() {
+
         }
+
+
+
+        // 从新尺寸大小
+        function reSize() {
+
+        }
+
+
+
+        Zepto(function($) {
+
+
+            init();
+        });
+
+
+
+        function init() {
+            // 初始化预加载
+            createjs.Ticker.setPaused(true);
+            this.loader = new createjs.LoadQueue();
+            this.loader.addEventListener('complete', this.handleLoadComplete.bind(this));
+            this.loader.addEventListener('progress', this.handleProgress);
+            this.loader.loadManifest(gameManager.config.manifest, true, './img/');
+
+//            var stage = new createjs.Stage('demoCanvas');
+//            var circle = new createjs.Shape();
+//            circle.graphics.beginStroke('red').drawCircle(0, 0, 50);
+//            circle.x = 100;
+//            circle.y = 100;
+//            createjs.Ticker.addEventListener('tick', handleTick);
+//            function handleTick() {
+//                circle.x += 10;
+//                 if (circle.x > stage.canvas.width) {
+//                     circle.x = 0;
+//                 }
+//                stage.update();
+//            }
+//
+//            stage.addChild(circle);
+//            stage.update();
+        }
+
+        function handleLoadComplete () {
+            console.log('finish');
+        }
+
+        function handleProgress (data) {
+            console.log(data.loaded);
+        }
+
     </script>
 </head>
-<body onload="init();">
-  <canvas id="demoCanvas" width="500" height="300"></canvas>
+<body>
+    <div class="page loading-page"></div>
+    <div class="page introduce-page"></div>
+    <div class="page game-page">
+        <canvas id="demoCanvas" width="500" height="300"></canvas>
+    </div>
+    <div class="page win-page"></div>
+    <div class="page lose-page"></div>
+    <div class="page result-page"></div>
+
 </body>
 </html>
